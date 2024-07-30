@@ -13,8 +13,8 @@ namespace THD.ERP.App
     {
         public AutoMapperProfile() 
         {
-            CreateMap<Department, DepartmentModel>();
-            CreateMap<DepartmentModel, Department>();
+            CreateMap<Student, StudentModel>();
+            CreateMap<StudentModel, Student>();
         }
     }
 }

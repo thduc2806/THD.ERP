@@ -23,7 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDataAccessorLayer(builder.Configuration);
 builder.Services.AddMediatorLayer();
-builder.Services.AddBuissinessLayer();
+builder.Services.AddBuissinessLayer(builder.Configuration);
 builder.Services.AddSwaggerGen();
 
 var secretKey = builder.Configuration.GetSection("Jwt:Key").Value;

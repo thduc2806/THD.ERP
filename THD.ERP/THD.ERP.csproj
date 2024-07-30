@@ -21,8 +21,4 @@
       <ProjectReference Include="..\THD.ERP.Infrastructure\THD.ERP.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
 </Project>

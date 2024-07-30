@@ -1,55 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THD.ERP.DataAccessor.Data;
+﻿using Dapper;
+using System.Data;
 
 namespace THD.ERP.Infrastructure.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private readonly HRMDbContext _context;
+        private readonly IDbConnection _connection;
 
-        public BaseRepository(HRMDbContext context)
+        protected BaseRepository(IDbConnection connection)
         {
-            _context = context;
+            _connection = connection;
         }
 
-
-        public async Task<List<T>> GetAllAsync()
+        protected IDbConnection CreateConnection()
         {
-            return await _context.Set<T>().ToListAsync();
+            return _connection;
         }
 
-        public async Task<T> GetByIdAsync(long id)
+        public async Task<IEnumerable<T>> GetAllAsync(string sql)
         {
-            return await _context.Set<T>().FindAsync(id);
+
+            return await _connection.QueryAsync<T>(sql);
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<T> GetByIdAsync(string sql, object parameters)
         {
-            _context.Set<T>().Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+            return await _connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public async Task<int> ExecuteAsync(string sql, object parameters)
         {
-            _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+            return await _connection.ExecuteAsync(sql, parameters);
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task<T> ExecuteScalarAsync(string sql, object parameters)
         {
-            var entity = await _context.Set<T>().FindAsync(id);
-            if (entity != null)
-            {
-                _context.Set<T>().Remove(entity);
-                await _context.SaveChangesAsync();
-            }
+            return await _connection.ExecuteScalarAsync<T>(sql, parameters);
         }
     }
 }

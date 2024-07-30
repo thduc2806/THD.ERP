@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using System.Reflection;
+using System.Data;
+using System.Data.SqlClient;
 using THD.ERP.App;
-using THD.ERP.App.Handlers.Authen;
 using THD.ERP.Infrastructure.Repositories;
-using THD.ERP.Infrastructure.Repositories.Departments;
+using THD.ERP.Infrastructure.Repositories.Students;
 
 namespace THD.ERP.DI
 {
@@ -15,11 +14,12 @@ namespace THD.ERP.DI
             services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssemblyMarker).Assembly));
         }
 
-        public static void AddBuissinessLayer(this IServiceCollection services)
+        public static void AddBuissinessLayer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped(typeof(IStudentRepository), typeof(StudentRepository));
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            services.AddTransient<IDbConnection>(sp => new SqlConnection(configuration.GetConnectionString("HRMDb")));
         }
 
     }

@@ -24,6 +24,8 @@ public class HRMDbContext : IdentityDbContext<Employee, ApplicationRole, long>
     public DbSet<EmployeeTraining> EmployeeTrainings { get; set; }
     
     public DbSet<PerformanceReview> PerformanceReviews { get; set; }
+
+    public DbSet<Student> Students { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

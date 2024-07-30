@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using THD.ERP.App.Models;
 
-namespace THD.ERP.App.Commands.Department
+namespace THD.ERP.App.Commands.Student
 {
-    public class DepartmentCommand : IRequest<DepartmentModel>
+    public class StudentCommand : IRequest<List<StudentModel>>
     {
     }
 }

@@ -2,15 +2,13 @@
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<List<T>> GetAllAsync();
-        
-        Task<T> GetByIdAsync(long id);
+        Task<IEnumerable<T>> GetAllAsync(string sql);
 
-        Task<T> AddAsync(T entity);
+        Task<T> GetByIdAsync(string sql, object parameters);
 
-        Task<T> UpdateAsync(T entity);
+        Task<int> ExecuteAsync(string sql, object parameters);
 
-        Task DeleteAsync(long id);
+        Task<T> ExecuteScalarAsync(string sql, object parameters);
 
     }
 }
